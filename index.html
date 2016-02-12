@@ -14,6 +14,8 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
+	<base target="_blank">
+
 	<link rel="stylesheet" href="css/reveal.css">
 	<link rel="stylesheet" href="css/theme/night.css" id="theme">
 	<link rel="stylesheet" href="css/custom.css">
@@ -42,21 +44,16 @@
 		<!-- Any section element inside of this container is displayed as a slide -->
 		<div class="slides">
 			<section>
-				<h1><span class="strike"><span>goto</span></span><i> for loops</i></h1>
+				<h1><span>goto</span></h1>
 				<h2>considered harmful</h2>
-				<h3>Cambia para siempre tu estilo de programación: JavaScript Funcional</h3>
 				<p>
 					<small><a href="mailto:javi.abadia@gmail.com">Javier Abadía</a> / <a href="http://twitter.com/javierabadia">@javierabadia</a></small>
 				</p>
 			</section>
 
-			<section data-background="img/EWDwww.jpg">
-				<h1 style="position:relative; top:250px; left: -20%;">Edgar W. Dijkstra</h1>
-			</section>
-
 			<section>
-				<h3>El bucle for</h3>
-				<pre><code class="hljs">
+				<h3>del goto al bucle for</h3>
+				<pre><code class="hljs fragment">
 	for i = low_value to high_value by increment do
 	    statements
 	end
@@ -75,6 +72,20 @@
 				</code></pre>
 			</section>
 
+			<section data-background="img/EWDwww.jpg">
+				<h1 style="position:relative; top:270px; color: #003;">Edgar W. Dijkstra</h1>
+			</section>
+
+		<div class="slides">
+			<section>
+				<h1><span class="strike"><span>goto</span></span><i class="fragment"> for loops</i></h1>
+				<h2>considered harmful</h2>
+				<h3 class="fragment">Cambia para siempre tu estilo de programación: JavaScript Funcional</h3>
+				<p>
+					<small><a href="mailto:javi.abadia@gmail.com">Javier Abadía</a> / <a href="http://twitter.com/javierabadia">@javierabadia</a></small>
+				</p>
+			</section>
+
 			<section data-background="img/beard.gif"></section>
 
 			<section>
@@ -87,8 +98,6 @@
 				</div>
 			</section>
 
-			<section data-background="img/puzzled.gif"></section>
-
 			<section>
 				<h2>¿funcional?</h2>
 				<h3 class="fragment">Las funciones son Objetos de primera clase</h3>
@@ -98,6 +107,8 @@
 				<div class="fragment">Se pueden asignar a variables</div>
 				<div class="fragment" style="color: yellow;">Se pueden pasar como parámetros</div>
 			</section>
+
+			<section data-background="img/puzzled.gif"></section>
 
 			<section>
 				<h3>array.prototype.forEach()</h3>
@@ -156,7 +167,7 @@
 				<h3>array.prototype.filter()</h3>
 
 				<pre><code class="hljs">
-	municipios.forEach(function(m) { m.ixProvincia = m.ix.substr(0,2); });					
+	municipios.forEach(function(m) { m.ixProvincia = m.ix.substr(0,2); });
 				</code></pre>
 
 				<pre class="fragment"><code class="hljs">
@@ -181,8 +192,22 @@
 				<h3>array.prototype.reduce()</h3>
 
 				<pre><code class="hljs">
-	var	
+	var candidaturas = [ ... 52 objetos ... ];
+
+	var otros = candidaturas.slice(4).reduce( function(otros, c)
+		{
+			otros.iEscanos += c.iEscanos;
+			otros.iVotos   += c.iVotos;
+			return otros;
+		}, 
+		{ iEscanos:0, iVotos:0, sCandidatura: 'OTROS' }
+	);
+
+	candidaturas = candidaturas.slice(0,4).concat(otros);
 				</code></pre>
+				<div style="text-align:right;">
+					<small><a href="http://www.elcorreo.com/elecciones/generales/resultados/">elcorreo.com</a></small>
+				</div>
 
 			</section>
 
@@ -191,7 +216,9 @@
 				<div class="stretch">
 				<iframe style="width:100%; height:100%;" src="http://caniuse.com/#search=forEach" frameborder="0"></iframe>
 				</div>
-				<div style="text-align:right;"><small>caniuse.org</small></div>
+				<div style="text-align:right;">
+					<small><a href="http://caniuse.com/#search=forEach">caniuse.org</a></small>
+				</div>
 			</section>
 
 			<section data-background="img/happy-dev.gif"></section>
@@ -201,35 +228,195 @@
 				<div>
 					<p>_.each()</p>
 					<p>_.map()</p>
-					<p>_.pluck()</p>
+					<p style="color:yellow">_.pluck()</p>
 				</div>
 				<div>
+					<p>_.reduce()</p>
 					<p>_.filter()</p>
-					<p>_.reject()</p>
-					<p>_.where()</p>
+					<p style="color:yellow">_.reject()</p>
+					<p style="color:yellow">_.partition()</p>
 				</div>
 				<div>
-					<p>_.groupBy()</p>
-					<p>_.indexBy()</p>
+					<p style="color:yellow">_.groupBy()</p>
+					<p style="color:yellow">_.indexBy()</p>
+				</div>
+				<div style="text-align:right;">
+					<small><a href="http://lodash.com/docs">lodash.org</a></small>
 				</div>
 			</section>
 
 			<section>
 				<h1>mejor todavía!</h1>
-				<h2>atajos</h2>
-				<h2>chaining</h2>
+				<h2>atajos <small class="fragment">{campo: valor}</small></h2>
+				<h2>chaining <small class="fragment">la fuerza usar tu debes</small></h2>
+<!-- 	_.unique(_.map(_.pluck(_.filter(municipios, {p:"44"}),'sNombre'), function(s) { return s.charAt(0); })) -->
+				<pre class="fragment" ><code class="hljs">
+
+	municipios.forEach(function(m) { m.p = m.ix.substr(0,2); })
+
+	_(municipios)
+		.filter({p:"44"})
+		.pluck('sNombre')
+		.map(function(s) { return s.charAt(0); })
+		.unique()
+		.value();
+				</code></pre>
+			</section>
+
+			<section>
+				<h2>¿un poco de curry?</h2>
+
+				<pre><code class="hljs">
+					
+	function suma(a,b) { return a + b; }
+
+	suma10 = _.curry(suma)(10);
+
+	suma10(3) // 13
+				</code></pre>
+				<div class="fragment">
+				<h2>Generando funciones</h2>
+				<pre><code class="hljs">
+	function imprimeError(lugar)
+	{
+		return function(err)
+		{
+			console.error("ERROR en " + lugar+":", err.responseText);
+		};
+	}
+
+	$.ajax('www.noexistexx.com', {
+		success: function(data) { console.log(data); },
+		error: imprimeError('llamada 1')
+	});
+
+				</code></pre>
+				</div>
+			</section>
+
+			<section data-background="img/typing-code.gif">
+			</section>
+
+			<section>
+				<h2>el mundo es asíncrono</h2>
+				<h4><a href="https://github.com/caolan/async#documentation">async</a></h4>
+
+				<pre><code class="hljs">
+
+	var resultadosAutonomia = function(a,cb) 
+	{ 
+		var url = 'http://localhost:3050/elecciones/generales/resultados/' + 
+			'api/2015/' + a.ix + '/congreso.json';
+		$.ajax(url).then(function(d) 
+		{ 
+			cb(null, d); 
+		}); 
+	}
+				</code></pre>
+
+				<pre><code class="hljs">
+
+	async.map(autonomias, resultadosAutonomia, function(err, results) 
+	{ 
+		console.log(_.map(results, function(r) 
+		{ 
+			return r.escrutinio.dPcVotos; 
+		})); 
+	});
+					
+				</code></pre>
+			</section>
+
+			<section>
+				<h2><a href="http://d3js.org">d3.js</a></h2>
+
+				<pre><code class="hljs">
+	var y = d3.scale.linear()
+		.domain([0,100])
+		.range([-20,20])
+
+	d3.selectAll('rect').data(myData)
+		...
+		.attr('x', function(d,i) { return i * 20; })
+		.attr('height', y)
+		...
+
+				</code></pre>
+				<div style="text-align: right;">
+					<small><a href="http://www.macwright.org/presentations/dcjq/">intro 'divertida'</a></small>
+				</div>
+			</section>
+
+			<section>
+				<h2>para terminar...</h2>
+				<p>la programación funcional permite</p>
+				<ul>
+					<li>código más cercano al propósito</li>
+					<li>más bonito</li>
+					<li>más seguro</li>
+					<li>¡y muchas virguerías!</li>
+				</ul>
+				<p>¿nos podemos librar del for?</p>
+			</section>
+
+			<section data-background="img/future-javascript-goto.png">
+			</section>
+
+			<section data-background="img/wtf1.gif">				
+			</section>
+
+			<section>
+				<h2>mi último consejo</h2>
+				<!-- <img src="img/handling-exceptions-so.jpg" alt=""> -->
+				<div class="embedded-tweet">
+				<p>cómo procesar las excepciones en Javascript</p>
+				<blockquote class="twitter-tweet" data-lang="en">
+					<p lang="en" dir="ltr">The right way to process JavaScript exceptions. 
+					<a href="https://t.co/sMXqHICudI">pic.twitter.com/sMXqHICudI</a></p>&mdash; Hao Chen (@haoel) <a href="https://twitter.com/haoel/status/695490584325152768">February 5, 2016</a>
+				</blockquote>
+				<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+				</div>
+			</section>
+
+
+			<section>
+				<h2>referencias</h2>
+				<p>explicación del artículo de E.W.Dijkstra e introducción a la programación estructurada</p>
+<p><a href="http://david.tribble.com/text/goto.html">http://david.tribble.com/text/goto.html</a>
+<p>tutorial paso a paso muy didáctico</p>
+<p><a href="http://jhusain.github.io/learnrx/">http://jhusain.github.io/learnrx/</a></p>
+<p>Eloquent Javascript</p>
+<p><a href="http://eloquentjavascript.net/1st_edition/chapter6.html">http://eloquentjavascript.net/1st_edition/chapter6.html</a></p>
+			</section>
+
+			<section>
+				<h1>Gracias!</h1>
+				<p>
+					<small><a href="mailto:javi.abadia@gmail.com">Javier Abadía</a> / <a href="http://twitter.com/javierabadia">@javierabadia</a></small>
+				</p>
 			</section>
 
 		</div>
 
 	</div>
 
+	<!--
+
+	var resultadosAutonomia = function(a,cb) { $.ajax('/api/2015/' + a.ix + '/congreso.json').then(function(d) { cb(null, d); }) }
+undefined
+
+async.map(autonomias, resultadosAutonomia, function(err, results) { console.log(_.pluck(results,'sNombre')); })
+undefined
+
+	-->
+
 	<script src="lib/js/head.min.js"></script>
 	<script src="js/reveal.js"></script>
 
 	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.js"></script>
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min.js"></script>
+	<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<script>
 
 		// Full list of configuration options available at:
@@ -272,9 +459,7 @@
 				window[name] = d;
 
 				if( _.isArray(d) )
-					console.log("cargadas",d.length,name);
-				else if( name == 'municipios' )
-					console.log("cargados", _.keys(d).length, name);
+					console.log(name == 'municipios'? "cargados" : "cargadas",d.length,name);
 				else
 					console.log("cargados los resultados del congreso:", d.candidaturas.length,"candidaturas");
 
@@ -287,6 +472,11 @@
 			{ ix: '29067', sNombre: 'Málaga'},
 			{ ix: '50297', sNombre: 'Zaragoza'},
 		];
+
+		function limpiaCandidatura(c) 
+		{
+			return _.pick(c,['sCandidatura','iEscanos','iVotos']);
+		}
 
 	</script>
 

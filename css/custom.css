@@ -6,3 +6,8 @@
 .strike span {
     color: #444;
 }
+
+.embedded-tweet iframe {
+	margin-left: auto;
+	margin-right: auto;
+}
